@@ -19,12 +19,12 @@ import javax.swing.Timer;
 public class Tablero extends JPanel implements ActionListener{
 
     public Tablero(int ancho, int alto) {
+        this.dimension = new Dimension(ancho, alto);
         this.objeto = new Objeto(50, 2, "tree.png", dimension);
         this.carril = new Carril(200, 4, "agua.png", dimension);
         this.setFocusable(true);
         this.timer = new Timer(100, this);
         this.timer.start();
-        this.dimension = new Dimension(ancho, alto);
     }
     
     @Override

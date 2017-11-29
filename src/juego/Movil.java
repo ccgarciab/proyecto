@@ -6,6 +6,8 @@
 package juego;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,10 +15,26 @@ import java.awt.Dimension;
  */
 public class Movil extends Objeto{
 
-    public Movil(int refY, int fotogramas, String nombreImagen, Dimension dimension) {
+    public Movil(int refY, int fotogramas, String nombreImagen, Dimension dimension, boolean movimientoADerecha) {
         super(refY, fotogramas, nombreImagen, dimension);
+        this.movimientoADerecha = movimientoADerecha;
     }
-
+    //este metodo dibujar() se distingue de los demás en que también mueve el movil
+    @Override
+    public void dibujar(Graphics g, JPanel panel) {
+        g.drawImage(imagen, refX, refY, refX+this.anchoFotograma, 
+            refY+this.altoFotograma, this.anchoFotograma*this.fotogramaActual, 
+            0, this.anchoFotograma*this.fotogramaActual + this.anchoFotograma, this.altoFotograma, panel);
+        this.moverEnX();
+    }
+    //el boolean indica si el movimiento debe ser hacia la derecha o no
+    public void moverEnX(){
+        if(this.movimientoADerecha){
+            this.refX++;
+        }else{
+            this.refX--;
+        }
+    }
     
-
+    private boolean movimientoADerecha;
 }

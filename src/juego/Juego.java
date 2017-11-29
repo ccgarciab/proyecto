@@ -20,7 +20,7 @@ public class Juego {
     public static void main(String[] args) {
         // TODO code application logic here
         JFrame frame = new JFrame();
-        frame.setSize(new Dimension(500,500));
+        frame.setSize(new Dimension(1000,1000));
         frame.add(new Tablero(frame.getWidth(), frame.getHeight()));//adicionando el panel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

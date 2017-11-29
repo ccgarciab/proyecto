@@ -21,18 +21,17 @@ public class Objeto extends Dibujable{
         super(refY, fotogramas, nombreImagen, dimension);
     }
 
-
-
     @Override
     public void dibujar(Graphics g, JPanel panel) {
         g.drawImage(imagen, refX, refY, refX+this.anchoFotograma, 
             refY+this.altoFotograma, this.anchoFotograma*this.fotogramaActual, 
             0, this.anchoFotograma*this.fotogramaActual + this.anchoFotograma, this.altoFotograma, panel);
     }
+    
     public void setX(int X){
         this.refX = X;
     }
-                
+    //devuelve un rectangulo dimensionado y ubicado de acuerdo a la imagen del objeto, mostrada en pantalla             
     public Rectangle obtenerRectangulo(){
         return new Rectangle(this.refX, this.refY, this.anchoFotograma, this.altoFotograma);
     }    

@@ -25,7 +25,7 @@ public class Carril extends Dibujable{
 
     @Override
     public void dibujar(Graphics g, JPanel panel) {
-        for(int i = 0; i<this.largoPantalla/this.anchoFotograma; i++){
+        for(int i = 0; i<(this.largoPantalla/this.anchoFotograma)+1; i++){
             g.drawImage(imagen, refX+(i*this.anchoFotograma), refY, refX+((i+1)*this.anchoFotograma), 
                 refY+this.altoFotograma, this.anchoFotograma*this.fotogramaActual, 
                 0, this.anchoFotograma*this.fotogramaActual + this.anchoFotograma, this.altoFotograma, panel);

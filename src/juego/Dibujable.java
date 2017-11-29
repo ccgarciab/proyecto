@@ -26,16 +26,16 @@ public abstract class Dibujable {
         this.largoPantalla = (int)dimension.getWidth();
         this.altoPantalla = (int)dimension.getHeight();
     }
-    
+
     public final Image cargarImagen(String nombreImagen){
         ImageIcon ii = new ImageIcon(nombreImagen);
         this.altoFotograma = ii.getIconHeight();
         this.anchoFotograma = ii.getIconWidth()/this.fotogramas;
-        System.out.println(this.anchoFotograma);
         Image image = ii.getImage();
          return image;
     }
     
+    //itera atraves de las imagenes que conforman la animacion
     public void cambiarFotogramas(){
         if(fotogramaActual == fotogramas-1){
             fotogramaActual = 0;
@@ -45,7 +45,8 @@ public abstract class Dibujable {
     }
     
     public abstract void dibujar(Graphics g, JPanel panel);
-
+    
+    //mueve la posicion del objeto en el panel un pixel hacia abajo
     public void scrollEnY(){
         this.refY++;
     }
@@ -58,6 +59,7 @@ public abstract class Dibujable {
     protected int anchoFotograma;
     protected int altoFotograma;
     protected int fotogramaActual;
+    //valores que se obtienen desde el frame que contiene la viasualización
     protected int largoPantalla;
     protected int altoPantalla;
 }

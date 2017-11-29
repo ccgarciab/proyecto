@@ -7,6 +7,7 @@ package juego;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,24 +42,33 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
         this.vias = new ArrayList(0);
         this.rios = new ArrayList(0);
         this.todosLosCarriles = new ArrayList(0);
-        this.rana = new Personaje(0, 1, dimension);
+        int alturaFotograma = 31;
+        this.rana = new Personaje(800-(alturaFotograma*24), 1, dimension);
+        int cantidadIniciales =(1800/31)/3;
+        int restante = alto-alturaFotograma;
+        System.out.println("can inic = "+cantidadIniciales);
         /*este segmento solo es una prueba, demostrando guardar algunos carriles, 
         algunos de ellos con sus propios objetos*/
-        for(int i = 0; i<5; i++){
-            this.vias.add(new CarrilDinamico((93*i)+31, 1, "via.png", dimension, this.dificultad, i%2==0));
-            this.rios.add(new CarrilReactivo(93*i, 4, "agua.png", dimension, this.dificultad, i%2==0));
-            this.carrilesSeguros.add(new Carril((93*i)+62, 2, "pasto.png", dimension));
+        while(restante>0){
+            this.vias.add(new CarrilDinamico(restante, 1, "via.png", dimension, this.dificultad, this.rand.nextBoolean()));
+            restante -= alturaFotograma;
+            this.rios.add(new CarrilReactivo(restante, 4, "agua.png", dimension, this.dificultad, this.rand.nextBoolean()));
+            restante -= alturaFotograma;
+            this.carrilesSeguros.add(new Carril(restante, 2, "pasto.png", dimension));
+            restante -= alturaFotograma;
         }
-        for(int i = 0; i<5; i++){   
-            this.carrilesSeguros.get(i).colocarObjeto();
-            this.carrilesSeguros.get(i).colocarObjeto();
-            this.carrilesSeguros.get(i).colocarObjeto();
-            this.carrilesSeguros.get(i).colocarObjeto();            
-        }
+
         this.todosLosCarriles.addAll(vias);
         this.todosLosCarriles.addAll(carrilesSeguros);
         this.todosLosCarriles.addAll(rios);
-        
+        for(int i = 0; i<this.todosLosCarriles.size(); i++){
+            this.todosLosCarriles.get(i).colocarMonedas();
+            this.todosLosCarriles.get(i).colocarObjeto();
+            this.todosLosCarriles.get(i).colocarObjeto();
+            this.todosLosCarriles.get(i).colocarObjeto();
+            this.todosLosCarriles.get(i).colocarObjeto();
+            this.todosLosCarriles.get(i).colocarObjeto();
+        }
         
     }
     
@@ -88,6 +98,7 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             this.rana.scrollEnY();
         }
         this.rana.dibujar(g, this);
+        this.validarColisiones();
     }
     
     @Override
@@ -97,9 +108,14 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             this.tiempo = 1;
             this.dificultad++;
         }
+//        this.validarColisiones();
         this.rotarCarriles();
         this.checkScrolling();
-        repaint();
+        if(this.rana.isVivo()){
+            repaint();
+        }else{
+            System.out.println("game over");
+        }
     }
     
     public void checkScrolling(){
@@ -121,7 +137,7 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             }
         }
         if(cambio){
-            Carril nuevoCarril = null;
+            Carril nuevoCarril;
             double aleatorio = this.rand.nextDouble();
             if(aleatorio>0.66){
                 nuevoCarril = new Carril(this.getHeight(), 2, "pasto.png", dimension);
@@ -140,6 +156,50 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             this.todosLosCarriles.add(nuevoCarril);
         }
     }
+    
+    public void validarColisiones(){
+        boolean hayColision = false;
+        String nombreObjeto = "";
+        int indiceCarriles = 0;
+        int indiceObjetos = 0;
+        Rectangle rectanguloRana = this.rana.obtenerRectangulo();
+        for(Carril carril: this.todosLosCarriles){
+            indiceObjetos = 0;
+            for(Objeto objeto: carril.getObjetos()){
+                if(rectanguloRana.intersects(objeto.obtenerRectangulo())){
+                    hayColision = true;
+                    nombreObjeto = objeto.getNombreArchivo();
+                    break;
+                }
+                indiceObjetos++;
+            }
+            if(hayColision){
+                break;
+            }
+            indiceCarriles++;
+        }
+        if(hayColision){
+            if(nombreObjeto.contains("carro")){
+                this.rana.toggleVida();
+            }else if(nombreObjeto.contains("arbol")){
+                this.rana.undoMove();
+            }else if(nombreObjeto.contains("moneda")){
+                this.rana.subirPuntaje();
+                this.todosLosCarriles.get(indiceCarriles).getObjetos().remove(this.todosLosCarriles.get(indiceCarriles).getObjetos().get(indiceObjetos));
+            }else if(nombreObjeto.contains("tronco")){
+                this.rana.setX(this.todosLosCarriles.get(indiceCarriles).getObjetos().get(indiceObjetos).getX());
+            }
+            return;
+        }
+        for(CarrilReactivo rio: this.rios){
+            if(rectanguloRana.intersects(rio.obtenerRectangulo())){
+                this.rana.toggleVida();
+                break;
+            }
+        }
+    }
+    
+    
     
     @Override
     public void keyTyped(KeyEvent e) {  

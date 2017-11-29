@@ -22,6 +22,7 @@ public abstract class Dibujable {
         this.refX = 0;
         this.fotogramas = fotogramas;
         this.fotogramaActual = 0;
+        this.nombreObjeto = nombreImagen;
         this.imagen = cargarImagen(nombreImagen);
         this.largoPantalla = (int)dimension.getWidth();
         this.altoPantalla = (int)dimension.getHeight();
@@ -42,6 +43,10 @@ public abstract class Dibujable {
         return this.refY;
     }
     
+    public String getNombreArchivo(){
+        return this.nombreObjeto;
+    }
+    
     public abstract void dibujar(Graphics g, JPanel panel);
     
     //mueve la posicion del objeto en el panel hacia arriba
@@ -58,4 +63,5 @@ public abstract class Dibujable {
     //valores que se obtienen desde el frame que contiene la viasualización
     protected int largoPantalla;
     protected int altoPantalla;
+    protected String nombreObjeto;
 }

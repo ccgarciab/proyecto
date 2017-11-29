@@ -7,6 +7,7 @@ package juego;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.util.Random;
 //import java.awt.Graphics;
 //import java.util.ArrayList;
 //import javax.swing.JPanel;
@@ -21,17 +22,24 @@ public class CarrilDinamico extends Carril{
         super(refY, fotogramas, nombreImagen, dimension);
         this.movimientoDerecha = movimientoDerecha;
         this.nombreObjetoPropio = "carro";
+        this.rand = new Random();
     }
     //ubica un movil al inicio o final del carril, y lo deja inicializado de forma que tenga el movimiento adecuado
     public void lanzarMovil(){
         Movil movil = null;
-        if(this.movimientoDerecha){
-            movil = new Movil(refY, 1, this.nombreObjetoPropio+".png", new Dimension(this.largoPantalla, this.altoPantalla), this.velocidad, movimientoDerecha);
-            movil.setX(0);
-        }else{
-            movil = new Movil(refY, 1, this.nombreObjetoPropio+"_i.png", new Dimension(this.largoPantalla, this.altoPantalla), this.velocidad, movimientoDerecha);
-            movil.setX(this.largoPantalla);
+        String nombre = this.nombreObjetoPropio;
+        int ubicacion = this.largoPantalla;
+        if(this.rand.nextBoolean()){
+            nombre += "1";
         }
+        if(this.movimientoDerecha){
+            nombre += ".png";
+            ubicacion = 0;
+        }else{
+            nombre += "_i.png";
+        }
+        movil = new Movil(refY, 1, nombre, new Dimension(this.largoPantalla, this.altoPantalla), this.velocidad, movimientoDerecha);
+        movil.setX(ubicacion);
         this.objetos.add(movil);
     }
     
@@ -39,11 +47,14 @@ public class CarrilDinamico extends Carril{
     public void colocarObjeto(){
         boolean intersectando = true;
         Rectangle rect = null;
-        String nombre = null;
+        String nombre = this.nombreObjetoPropio;
+        if(this.rand.nextBoolean()){
+            nombre += "1";
+        }
         if(this.movimientoDerecha){
-            nombre = this.nombreObjetoPropio+".png";
+            nombre += ".png";
         }else{
-            nombre = this.nombreObjetoPropio+"_i.png";
+            nombre += "_i.png";
         }
         Movil movil = new Movil(refY, 1, nombre, new Dimension(this.largoPantalla, this.altoPantalla), velocidad, movimientoDerecha);
         while(intersectando){
@@ -65,4 +76,5 @@ public class CarrilDinamico extends Carril{
     
     protected boolean movimientoDerecha;
     protected int velocidad;
+    protected Random rand;
 }

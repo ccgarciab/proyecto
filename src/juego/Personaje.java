@@ -17,7 +17,6 @@ public class Personaje extends Objeto{
     
     public Personaje(int refY, int fotogramas, Dimension dimension) {
         super(refY, fotogramas, "rana.png", dimension);
-        System.out.println("rana inicializada");
     }
     
     public void keyPressed(KeyEvent e) throws IOException {

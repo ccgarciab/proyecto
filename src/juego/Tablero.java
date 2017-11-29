@@ -9,7 +9,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,11 +22,12 @@ import javax.swing.Timer;
  *
  * @author Cristian
  */
-public class Tablero extends JPanel implements ActionListener{
+public class Tablero extends JPanel implements ActionListener, KeyListener{
 
     public Tablero(int ancho, int alto) {
         this.dimension = new Dimension(ancho, alto);
         this.setFocusable(true);
+        this.addKeyListener(this);
         this.timer = new Timer(100, this);
         this.timer.start();
         
@@ -79,9 +85,28 @@ public class Tablero extends JPanel implements ActionListener{
         t++;
         if(t==2000){
             t = 0;
+        }
+        if(t%250==0){
             dificultad++;
         }
         repaint();
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {  
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        try {
+            this.rana.keyPressed(e);
+        } catch (IOException ex) {
+            Logger.getLogger(Tablero.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
     
     private ArrayList<Carril> carrilesSeguros;

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  */
 public class Movil extends Objeto{
 
-    public Movil(int refY, int fotogramas, String nombreImagen, Dimension dimension, boolean movimientoADerecha) {
+    public Movil(int refY, int fotogramas, String nombreImagen, Dimension dimension, int velocidad ,boolean movimientoADerecha) {
         super(refY, fotogramas, nombreImagen, dimension);
         this.movimientoADerecha = movimientoADerecha;
     }
@@ -37,4 +37,5 @@ public class Movil extends Objeto{
     }
     
     private boolean movimientoADerecha;
+    private int velocidad;
 }

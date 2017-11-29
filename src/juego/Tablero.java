@@ -24,17 +24,24 @@ public class Tablero extends JPanel implements ActionListener{
         this.setFocusable(true);
         this.timer = new Timer(100, this);
         this.timer.start();
-        this.carriles = new ArrayList();
+        
+        this.dificultad = 1;
+        this.t = 0;
+        
+        this.carrilesSeguros = new ArrayList(0);
+        this.vias = new ArrayList(0);
+        this.rios = new ArrayList(0);
+        this.rana = new Personaje(100, 1, dimension);
         /*este segmento solo es una prueba, demostrando guardar algunos carriles, 
         algunos de ellos con sus propios objetos*/
-        CarrilDinamico  via = null;
         for(int i = 0; i<5; i++){
-            this.carriles.add(new Carril(93*i, 4, "agua.png", dimension));
-            via = new CarrilDinamico((93*i)+31, 1, "via.png", dimension, i%2==0);
-            via.lanzarMovil();
-            this.carriles.add(via);
-            this.carriles.add(new Carril((93*i)+62, 2, "pasto.png", dimension));
-            this.carriles.get((3*i)+2).colocarArbol(i*20);
+            this.vias.add(new CarrilDinamico((93*i)+31, 1, "via.png", dimension, this.dificultad, i%2==0));
+            this.rios.add(new CarrilReactivo(93*i, 4, "agua.png", dimension, this.dificultad, i%2==0));
+            this.carrilesSeguros.add(new Carril((93*i)+62, 2, "pasto.png", dimension));
+        }
+        for(int i = 0; i<5; i++){   
+            this.carrilesSeguros.get(i).colocarArbol(i*20);
+            this.carrilesSeguros.get(i).colocarArbol(i*60);
         }
         
         
@@ -45,18 +52,44 @@ public class Tablero extends JPanel implements ActionListener{
         super.paintComponent(g);
         /*aunnque por ahora es una prueba, el paintComponent final será muy parecido
             con un for para dibujar todos los carriles (los cuales a su vez dibujan todos los objetos)*/
-        for(Carril carril: this.carriles){
+        //this.rana.setX(t/100);
+        for(Carril carril: this.carrilesSeguros){
             carril.dibujar(g, this);
             carril.cambiarFotogramas();
         }
+        for(CarrilDinamico via: this.vias){
+            via.dibujar(g, this);
+            via.cambiarFotogramas();
+            if(t%100 == 0){
+                via.lanzarMovil();
+            }
+        }
+        for(CarrilReactivo rio: this.rios){
+            rio.dibujar(g, this);
+            rio.cambiarFotogramas();
+            if(t%150 == 0){
+                rio.lanzarMovil();
+            }
+        }
+        this.rana.dibujar(g, this);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        t++;
+        if(t==2000){
+            t = 0;
+            dificultad++;
+        }
         repaint();
     }
     
-    private ArrayList<Carril> carriles;
+    private ArrayList<Carril> carrilesSeguros;
+    private ArrayList<CarrilDinamico> vias;
+    private ArrayList<CarrilReactivo> rios;
+    private Personaje rana;
     private Timer timer; 
     private Dimension dimension;
+    private int dificultad;
+    private int t;
 }

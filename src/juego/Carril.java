@@ -21,6 +21,7 @@ public class Carril extends Dibujable{
     public Carril(int refY, int fotogramas, String nombreImagen, Dimension dimension) {
         super(refY, fotogramas, nombreImagen, dimension);
         this.objetos = new ArrayList(0);
+        this.nombreObjetoPropio = "arbol";
     }
 
     @Override
@@ -36,10 +37,11 @@ public class Carril extends Dibujable{
     }
     
     public void colocarArbol(int X){
-        Objeto arbol = new Objeto(refY, 2, "arbol.png",new Dimension(this.largoPantalla, this.altoPantalla));
+        Objeto arbol = new Objeto(refY, 2, this.nombreObjetoPropio+".png",new Dimension(this.largoPantalla, this.altoPantalla));
         arbol.setX(X);
         this.objetos.add(arbol);
     }
     
     protected ArrayList<Objeto> objetos; 
+    protected String nombreObjetoPropio;
 }

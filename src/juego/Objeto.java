@@ -31,7 +31,11 @@ public class Objeto extends Dibujable{
     public void setX(int X){
         this.refX = X;
     }
-    //devuelve un rectangulo dimensionado y ubicado de acuerdo a la imagen del objeto, mostrada en pantalla             
+    
+    public int getX(){
+        return this.refX;
+    }
+    //devuelve un rectangulo dimensionado y ubicado de acuerdo a la imagen del objeto mostrada en pantalla             
     public Rectangle obtenerRectangulo(){
         return new Rectangle(this.refX, this.refY, this.anchoFotograma, this.altoFotograma);
     }    

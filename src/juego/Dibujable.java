@@ -32,7 +32,7 @@ public abstract class Dibujable {
         this.altoFotograma = ii.getIconHeight();
         this.anchoFotograma = ii.getIconWidth()/this.fotogramas;
         Image image = ii.getImage();
-         return image;
+        return image;
     }
     
     //itera atraves de las imagenes que conforman la animacion

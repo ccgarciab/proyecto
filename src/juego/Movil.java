@@ -18,6 +18,7 @@ public class Movil extends Objeto{
     public Movil(int refY, int fotogramas, String nombreImagen, Dimension dimension, int velocidad ,boolean movimientoADerecha) {
         super(refY, fotogramas, nombreImagen, dimension);
         this.movimientoADerecha = movimientoADerecha;
+        this.velocidad = velocidad;
     }
     //este metodo dibujar() se distingue de los demás en que también mueve el movil
     @Override
@@ -30,9 +31,9 @@ public class Movil extends Objeto{
     //el boolean indica si el movimiento debe ser hacia la derecha o no
     public void moverEnX(){
         if(this.movimientoADerecha){
-            this.refX ++;
+            this.refX += velocidad;
         }else{
-            this.refX --;
+            this.refX -= velocidad;
         }
     }
     

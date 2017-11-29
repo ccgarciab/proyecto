@@ -5,7 +5,11 @@
  */
 package interfaz;
 
+import juego.Juego;
 import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import juego.*;
 
 /**
  *
@@ -161,20 +165,32 @@ public class Niveles extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Juego obj = new Juego();
-        obj.setVisible(true);
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(1300,800));
+        frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 5));//adicionando el panel
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Juego obj = new Juego();
-        obj.setVisible(true);
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(1300,800));
+        frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 10));//adicionando el panel
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Juego obj = new Juego();
-        obj.setVisible(true);
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(1300,800));
+        frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 15));//adicionando el panel
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

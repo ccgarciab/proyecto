@@ -6,6 +6,9 @@
 package interfaz;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import juego.Tablero;
 
 /**
  *
@@ -148,9 +151,12 @@ public class Jugabilidad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Juego1vs1 obj= new Juego1vs1();
-        obj.setVisible(true);
-        dispose();
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(1300,800));
+        frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 1));//adicionando el panel
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

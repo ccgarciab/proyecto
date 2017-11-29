@@ -52,7 +52,7 @@ public class Objeto extends Dibujable{
         
     //devuelve un rectangulo dimensionado y ubicado de acuerdo a la imagen del objeto mostrada en pantalla             
     public Rectangle obtenerRectangulo(){
-        return new Rectangle(this.refX, this.refY, this.anchoFotograma, this.altoFotograma);
+        return new Rectangle(this.refX, this.refY+7, this.anchoFotograma, this.altoFotograma-7);
     }
     
 }

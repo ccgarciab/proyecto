@@ -8,6 +8,7 @@ package juego;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
+
 /**
  *
  * @author Cristian
@@ -21,9 +22,14 @@ public class Juego {
         // TODO code application logic here
         JFrame frame = new JFrame();
         frame.setSize(new Dimension(1300,800));
-        frame.add(new Tablero(frame.getWidth(), frame.getHeight()));//adicionando el panel
+        frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 1)); //adicionando el panel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+    }
+
+    void setVisible(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -21,6 +21,7 @@ public class CarrilDinamico extends Carril{
     public CarrilDinamico(int refY, int fotogramas, String nombreImagen, Dimension dimension, int velocidad, boolean movimientoDerecha) {
         super(refY, fotogramas, nombreImagen, dimension);
         this.movimientoDerecha = movimientoDerecha;
+        this.velocidad = velocidad;
         this.nombreObjetoPropio = "carro";
         this.rand = new Random();
     }

@@ -5,6 +5,7 @@
  */
 package juego;
 
+import interfaz.Niveles;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -26,7 +27,7 @@ import javax.swing.Timer;
  */
 public class Tablero extends JPanel implements ActionListener, KeyListener{
 
-    public Tablero(int ancho, int alto) {
+    public Tablero(int ancho, int alto, int dificultad) {
         this.dimension = new Dimension(ancho, alto);
         this.setFocusable(true);
         this.addKeyListener(this);
@@ -50,9 +51,9 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
         /*este segmento solo es una prueba, demostrando guardar algunos carriles, 
         algunos de ellos con sus propios objetos*/
         while(restante>0){
-            this.vias.add(new CarrilDinamico(restante, 1, "via.png", dimension, this.dificultad, this.rand.nextBoolean()));
+            this.vias.add(new CarrilDinamico(restante, 1, "via.png", dimension, dificultad, this.rand.nextBoolean()));
             restante -= alturaFotograma;
-            this.rios.add(new CarrilReactivo(restante, 4, "agua.png", dimension, this.dificultad, this.rand.nextBoolean()));
+            this.rios.add(new CarrilReactivo(restante, 4, "agua.png", dimension, dificultad, this.rand.nextBoolean()));
             restante -= alturaFotograma;
             this.carrilesSeguros.add(new Carril(restante, 2, "pasto.png", dimension));
             restante -= alturaFotograma;
@@ -115,11 +116,15 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             repaint();
         }else{
             System.out.println("game over");
+            Niveles obj = new Niveles();
+            obj.setVisible(true);
+            timer.stop();
+            
         }
     }
     
     public void checkScrolling(){
-        if(this.tiempo%this.periodo/this.dificultad == 0||this.rana.getRefY()>(3*this.getHeight())/4){
+        if(this.tiempo%this.periodo == 0||this.rana.getRefY()>(3*this.getHeight())/4){
             scrolling = true;
         }else{
             scrolling = false;

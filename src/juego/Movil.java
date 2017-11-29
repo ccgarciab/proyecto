@@ -30,9 +30,9 @@ public class Movil extends Objeto{
     //el boolean indica si el movimiento debe ser hacia la derecha o no
     public void moverEnX(){
         if(this.movimientoADerecha){
-            this.refX++;
+            this.refX ++;
         }else{
-            this.refX--;
+            this.refX --;
         }
     }
     

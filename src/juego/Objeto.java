@@ -28,6 +28,11 @@ public class Objeto extends Dibujable{
             0, this.anchoFotograma*this.fotogramaActual + this.anchoFotograma, this.altoFotograma, panel);
     }
     
+    @Override
+    public void scrollEnY(){
+        this.refY -= this.altoFotograma;
+    }
+    
     public void setX(int X){
         this.refX = X;
     }
@@ -35,6 +40,16 @@ public class Objeto extends Dibujable{
     public int getX(){
         return this.refX;
     }
+    
+    @Override
+    public void cambiarFotogramas(){
+        if(fotogramaActual == fotogramas-1){
+            fotogramaActual = 0;
+        }else{
+            fotogramaActual++;
+        }
+    }
+        
     //devuelve un rectangulo dimensionado y ubicado de acuerdo a la imagen del objeto mostrada en pantalla             
     public Rectangle obtenerRectangulo(){
         return new Rectangle(this.refX, this.refY, this.anchoFotograma, this.altoFotograma);

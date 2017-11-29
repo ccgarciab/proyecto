@@ -17,15 +17,18 @@ public class Personaje extends Objeto{
     
     public Personaje(int refY, int fotogramas, Dimension dimension) {
         super(refY, fotogramas, "rana.png", dimension);
+        this.salto = this.altoFotograma;
     }
     
     public void keyPressed(KeyEvent e) throws IOException {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_DOWN: this.refY += 10;break;
-            case KeyEvent.VK_UP: this.refY -= 10;break;
-            case KeyEvent.VK_LEFT: this.refX -= 10;break;
-            case KeyEvent.VK_RIGHT: this.refX += 10;break;
+            case KeyEvent.VK_DOWN: this.refY += this.salto;break;
+            case KeyEvent.VK_UP: this.refY -= this.salto;break;
+            case KeyEvent.VK_LEFT: this.refX -= this.salto;break;
+            case KeyEvent.VK_RIGHT: this.refX += this.salto;break;
               
           }
     }
+    
+    private int salto;
 }

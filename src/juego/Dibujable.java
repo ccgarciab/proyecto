@@ -36,20 +36,16 @@ public abstract class Dibujable {
     }
     
     //itera atraves de las imagenes que conforman la animacion
-    public void cambiarFotogramas(){
-        if(fotogramaActual == fotogramas-1){
-            fotogramaActual = 0;
-        }else{
-            fotogramaActual++;
-        }
+    public abstract void cambiarFotogramas();
+    
+    public int getRefY(){
+        return this.refY;
     }
     
     public abstract void dibujar(Graphics g, JPanel panel);
     
-    //mueve la posicion del objeto en el panel un pixel hacia abajo
-    public void scrollEnY(){
-        this.refY++;
-    }
+    //mueve la posicion del objeto en el panel hacia arriba
+    public abstract void scrollEnY();
     
     protected int refY;
     protected int refX;

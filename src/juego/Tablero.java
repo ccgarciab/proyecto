@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -30,14 +31,17 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
         this.addKeyListener(this);
         this.timer = new Timer(100, this);
         this.timer.start();
+        this.rand = new Random();
         
         this.dificultad = 1;
-        this.t = 0;
+        this.tiempo = 0;
+        this.periodo = 199;
         
         this.carrilesSeguros = new ArrayList(0);
         this.vias = new ArrayList(0);
         this.rios = new ArrayList(0);
-        this.rana = new Personaje(100, 1, dimension);
+        this.todosLosCarriles = new ArrayList(0);
+        this.rana = new Personaje(0, 1, dimension);
         /*este segmento solo es una prueba, demostrando guardar algunos carriles, 
         algunos de ellos con sus propios objetos*/
         for(int i = 0; i<5; i++){
@@ -46,9 +50,14 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
             this.carrilesSeguros.add(new Carril((93*i)+62, 2, "pasto.png", dimension));
         }
         for(int i = 0; i<5; i++){   
-            this.carrilesSeguros.get(i).colocarArbol(i*20);
-            this.carrilesSeguros.get(i).colocarArbol(i*60);
+            this.carrilesSeguros.get(i).colocarObjeto();
+            this.carrilesSeguros.get(i).colocarObjeto();
+            this.carrilesSeguros.get(i).colocarObjeto();
+            this.carrilesSeguros.get(i).colocarObjeto();            
         }
+        this.todosLosCarriles.addAll(vias);
+        this.todosLosCarriles.addAll(carrilesSeguros);
+        this.todosLosCarriles.addAll(rios);
         
         
     }
@@ -58,38 +67,78 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
         super.paintComponent(g);
         /*aunnque por ahora es una prueba, el paintComponent final será muy parecido
             con un for para dibujar todos los carriles (los cuales a su vez dibujan todos los objetos)*/
-        //this.rana.setX(t/100);
-        for(Carril carril: this.carrilesSeguros){
+        for(Carril carril: this.todosLosCarriles){
             carril.dibujar(g, this);
             carril.cambiarFotogramas();
+            if(scrolling){
+                carril.scrollEnY(); 
+            }
         }
         for(CarrilDinamico via: this.vias){
-            via.dibujar(g, this);
-            via.cambiarFotogramas();
-            if(t%100 == 0){
+            if(this.tiempo%75 == 0 && this.rand.nextDouble()>0.4){
                 via.lanzarMovil();
             }
         }
         for(CarrilReactivo rio: this.rios){
-            rio.dibujar(g, this);
-            rio.cambiarFotogramas();
-            if(t%150 == 0){
+            if(this.tiempo%75 == 0 && this.rand.nextDouble()>0.6){
                 rio.lanzarMovil();
             }
+        }
+        if(scrolling){
+            this.rana.scrollEnY();
         }
         this.rana.dibujar(g, this);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        t++;
-        if(t==2000){
-            t = 0;
+        tiempo++;
+        if(this.tiempo == this.periodo){
+            this.tiempo = 1;
+            this.dificultad++;
         }
-        if(t%250==0){
-            dificultad++;
-        }
+        this.rotarCarriles();
+        this.checkScrolling();
         repaint();
+    }
+    
+    public void checkScrolling(){
+        if(this.tiempo%this.periodo/this.dificultad == 0||this.rana.getRefY()>(3*this.getHeight())/4){
+            scrolling = true;
+        }else{
+            scrolling = false;
+        }
+    }
+    
+    public void rotarCarriles(){
+        boolean cambio = false;
+        for(Carril carril: this.todosLosCarriles){
+            if(carril.getRefY()<0){
+                carril.getObjetos().clear();
+                carril = null;
+                this.todosLosCarriles.remove(carril);
+                cambio = true;
+            }
+        }
+        if(cambio){
+            Carril nuevoCarril = null;
+            double aleatorio = this.rand.nextDouble();
+            if(aleatorio>0.66){
+                nuevoCarril = new Carril(this.getHeight(), 2, "pasto.png", dimension);
+                this.carrilesSeguros.add(nuevoCarril);
+            }else if(aleatorio>0.33){
+                nuevoCarril = new CarrilDinamico(this.getHeight(), 1, "via.png", dimension, this.dificultad, rand.nextBoolean());
+                this.vias.add((CarrilDinamico)nuevoCarril);
+            }else{
+                nuevoCarril = new CarrilReactivo(this.getHeight(), 4, "agua.png", dimension, this.dificultad, rand.nextBoolean());
+                this.rios.add((CarrilReactivo)nuevoCarril);
+            }
+            for(int i = 0; i<6; i++){
+                nuevoCarril.colocarObjeto();
+                nuevoCarril.colocarMonedas();
+            }
+            this.todosLosCarriles.add(nuevoCarril);
+        }
     }
     
     @Override
@@ -112,9 +161,13 @@ public class Tablero extends JPanel implements ActionListener, KeyListener{
     private ArrayList<Carril> carrilesSeguros;
     private ArrayList<CarrilDinamico> vias;
     private ArrayList<CarrilReactivo> rios;
+    private ArrayList<Carril> todosLosCarriles;
     private Personaje rana;
     private Timer timer; 
     private Dimension dimension;
     private int dificultad;
-    private int t;
+    private int tiempo;
+    private int periodo;
+    private boolean scrolling;
+    private Random rand;
 }

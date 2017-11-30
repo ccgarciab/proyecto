@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import juego.Tablero;
 
+
 /**
  *
  * @author Diego A. Velasquez
@@ -156,6 +157,7 @@ public class Jugabilidad extends javax.swing.JFrame {
         frame.add(new Tablero(frame.getWidth(), frame.getHeight(), 1));//adicionando el panel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
